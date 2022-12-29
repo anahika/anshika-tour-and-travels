@@ -1,0 +1,11 @@
+.card1-img-top {
+  width: 100%;
+  height: 15vw;
+  object-fit: cover;
+}
+.card1 {
+  height: 100%;
+}
+.card1:hover {
+  transform: scale(1.1);
+}

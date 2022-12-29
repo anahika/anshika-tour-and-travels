@@ -1,0 +1,9 @@
+eureka:
+  server:
+    lease-renewal-interval-in-seconds: 0
+    wait-time-in-ms-when-sync-empty: 0
+  client:
+    registerWithEureka: false
+    fetchRegistry: false
+server:
+  port: 8761

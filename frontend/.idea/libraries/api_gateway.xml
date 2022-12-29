@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="api-gateway">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/src/images/api-gateway.zip!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
