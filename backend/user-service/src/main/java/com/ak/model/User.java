@@ -22,10 +22,10 @@ public class User {
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_generator")
     @SequenceGenerator(name = "user_generator", sequenceName = "user_id_gen", allocationSize = 1)
     @Column(name = "user_id")
-    Integer userId;
-    String username;
-    String email;
-    String usertype;
+    private Integer userId;
+    private String username;
+    private String email;
+    private String usertype;
     @Column(name = "user_password")
-    String password;
+    private String password;
 }

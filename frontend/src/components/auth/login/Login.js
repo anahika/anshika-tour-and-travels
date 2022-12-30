@@ -30,6 +30,7 @@ export default function Login(props) {
     login(e.target.username.value, e.target.password.value).then((response) => {
       if (response.status === 200) {
         navigate("/");
+        window.location.reload();
       }
     });
   };

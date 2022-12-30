@@ -1,10 +1,12 @@
 package com.ak.controller;
 
 import com.ak.dto.LoginRequestDto;
+import com.ak.dto.TourDto;
 import com.ak.exception.UserAlreadyExistException;
 import com.ak.exception.UserNotFoundException;
 import com.ak.exception.WrongPasswordException;
 import com.ak.model.Tour;
+import com.ak.model.TripRegistration;
 import com.ak.model.User;
 import com.ak.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -44,7 +46,7 @@ public class UserController {
     //    get list of trips for particular user
     @RequestMapping(method = RequestMethod.GET, path = "/user/trips/{userId}",
             produces = "application/json")
-    List<Tour> getToursByUserId(@PathVariable("userId") Integer userId)  {
+    List<TourDto> getToursByUserId(@PathVariable("userId") Integer userId) {
         return userService.findToursByUserId(userId);
     }
 

@@ -1,0 +1,9 @@
+table {
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+@media screen and (max-width: 580px) {
+  table {
+    font-size: small;
+  }
+}

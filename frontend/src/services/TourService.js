@@ -9,7 +9,8 @@ export const getTours = async () => {
   } catch (error) {
     if (
       error.message === "Network Error" ||
-      error.message === "Service Unavailable"
+      error.message === "Service Unavailable" ||
+      error.response.status === 503
     ) {
       toast.error(
         "We are unable to find the list of tours. Please try after some time"
@@ -28,7 +29,8 @@ export const getByPlace = async (destination) => {
   } catch (error) {
     if (
       error.message === "Network Error" ||
-      error.message === "Service Unavailable"
+      error.message === "Service Unavailable" ||
+      error.response.status === 503
     ) {
       toast.error(
         "We are unable to process your request. Please try after some time"
@@ -56,7 +58,8 @@ export const getByDate = async (date) => {
   } catch (error) {
     if (
       error.message === "Network Error" ||
-      error.message === "Service Unavailable"
+      error.message === "Service Unavailable" ||
+      error.response.status === 503
     ) {
       toast.error(
         "We are unable to process your request. Please try after some time"

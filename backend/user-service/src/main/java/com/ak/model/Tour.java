@@ -21,12 +21,12 @@ public class Tour {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "tour_id")
-    Integer tourId;
+    private Integer tourId;
     @Column(name = "tour_date")
-    Date tourDate;
-    String destination;
-    Integer fare;
+    private Date tourDate;
+    private String destination;
+    private Integer fare;
     @Column(name = "seats_available")
-    Integer seatsAvailable;
+    private Integer seatsAvailable;
 
 }

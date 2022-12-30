@@ -13,6 +13,7 @@ function SignUp() {
     register({ ...values })
       .then(() => {
         navigate("/");
+        window.location.reload();
       })
       .catch((error) => {});
   };

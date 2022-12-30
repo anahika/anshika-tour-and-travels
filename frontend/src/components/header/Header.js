@@ -22,6 +22,7 @@ function Header() {
 
   const logOut = () => {
     logout();
+    window.location.reload();
   };
   return (
     <nav className="navbar navbar-expand ">
@@ -52,7 +53,10 @@ function Header() {
             </Link>
           </li>
           <li className="nav-item">
-            <button className="btn btn-outline-primary rounded-pill" onClick={logOut}>
+            <button
+              className="btn btn-outline-primary rounded-pill"
+              onClick={logOut}
+            >
               Logout
             </button>
           </li>

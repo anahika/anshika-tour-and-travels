@@ -1,9 +1,9 @@
 package com.ak.service;
 
+import com.ak.dto.TourDto;
 import com.ak.exception.UserAlreadyExistException;
 import com.ak.exception.UserNotFoundException;
 import com.ak.exception.WrongPasswordException;
-import com.ak.model.Tour;
 import com.ak.model.User;
 import com.ak.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -59,9 +59,8 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public List<Tour> findToursByUserId(Integer userId) {
-        List<Tour> trips = userRepo.findToursByUserId(userId);
-        System.out.println(trips.toString());
+    public List<TourDto> findToursByUserId(Integer userId) {
+        List<TourDto> trips = userRepo.findToursByUserId(userId);
         return trips;
     }
 
@@ -74,7 +73,6 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException(e);
         }
         if (user.isPresent()) {
-            System.out.println(user.get().getPassword());
             if(user.get().getPassword().equals(password)){
                 return user.get();
             }

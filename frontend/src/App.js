@@ -8,7 +8,7 @@ import Login from "./components/auth/login/Login";
 import SignUp from "./components/auth/signup/SignUp";
 import UserBoard from "./components/user/UserDetail";
 import AdminBoard from "./components/admin/AdminBoard";
-import Error from "./components/error/Error";
+import Error from "./components/pages/Error";
 import Profile from "./components/profile/Profile";
 import MyTrips from "./components/profile/MyTrips";
 import { ToastContainer } from "react-toastify";

@@ -14,10 +14,10 @@ export const getUsers = async () => {
 
 export const getUserWithId = () => {};
 
-export const getTripsForUser = async (userId) => {
+export const getTripsForUser = async () => {
+  const userId = JSON.parse(localStorage.getItem("user")).userId;
   try {
     let res = await axios.get(usersURL + `/user/trips/${userId}`);
-    console.log(res.data)
     return res.data;
   } catch (error) {
     if (error.message === "Network Error") {
