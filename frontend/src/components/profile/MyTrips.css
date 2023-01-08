@@ -6,4 +6,7 @@ table {
   table {
     font-size: small;
   }
+  .min-max-price {
+    width: 250px;
+  }
 }

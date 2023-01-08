@@ -5,10 +5,9 @@ import { usersURL } from "../config/URLConstants";
 export const login = async (username, password) => {
   try {
     let res = await axios.post(usersURL + "/login", {
-      username: username,
-      password: password,
+      username,
+      password,
     });
-
     localStorage.setItem("user", JSON.stringify(res.data));
     toast.success("Login Successful!");
     return res;
@@ -42,10 +41,10 @@ export const register = async (props) => {
   const { username, email, password, usertype } = props;
   try {
     let res = await axios.post(usersURL + "/signup", {
-      username: username,
-      email: email,
-      password: password,
-      usertype: usertype,
+      username,
+      email,
+      password,
+      usertype,
     });
     localStorage.setItem("user", JSON.stringify(res.data));
     return res.data;

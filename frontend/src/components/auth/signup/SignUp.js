@@ -68,7 +68,7 @@ function SignUp() {
         <h3 className="auth-form-title">Sign Up</h3>
         <div className="text-center">
           Already registered?{" "}
-          <Link to={"/signin"} className="nav-link">
+          <Link to={"/login"} className="nav-link">
             Sign In
           </Link>
         </div>

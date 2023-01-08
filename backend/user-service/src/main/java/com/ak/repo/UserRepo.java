@@ -1,14 +1,11 @@
 package com.ak.repo;
 
 import com.ak.dto.TourDto;
-import com.ak.model.Tour;
-import com.ak.model.TripRegistration;
 import com.ak.model.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
-import javax.persistence.TypedQuery;
 import java.util.List;
 import java.util.Optional;
 

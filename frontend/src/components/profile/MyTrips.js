@@ -1,26 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { getTripsForUser } from "../../services/UserService";
 import "./MyTrips.css";
 import Loading from "../pages/Loading";
-import NoTrips from "../pages/NoTrips";
 
 function MyTrips() {
   const params = useParams();
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [isEmpty, setIsEmpty] = useState(false);
   const [tours, setTours] = useState([]);
 
   useEffect(() => {
-    getTripsForUser(params.userId).then((response) => {
-      if (response.length === 0) {
-        setIsEmpty(true);
-      } else {
-        setTours(response);
-      }
-      setIsLoading(false);
-    });
-  }, [params.userId]);
+    getTripsForUser(params.userId, navigate)
+      .then((response) => {
+        setIsLoading(false);
+        if (response === "error") {
+          setTours([]);
+        } else if (response.length === 0) {
+          let problem =
+            "Currently you are not registered to any tours available.";
+          let sol = "Feel free to register!";
+          navigate("/tours/no-tours", {
+            state: { problem: problem, sol: sol },
+          });
+        } else {
+          setIsLoading(false);
+          setTours(response);
+        }
+      })
+      .catch((error) => {
+        console.log("hello");
+      });
+  }, [params.userId, navigate]);
 
   const capitalizeFirstLowercaseRest = (str) => {
     return str?.charAt(0).toUpperCase() + str?.slice(1).toLowerCase();
@@ -28,8 +39,6 @@ function MyTrips() {
 
   if (isLoading) {
     return <Loading />;
-  } else if (isEmpty) {
-    return <NoTrips />;
   } else {
     return (
       <div className="table-responsive d-flex justify-content-center">

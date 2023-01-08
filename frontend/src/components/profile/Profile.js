@@ -21,22 +21,25 @@ export default function Profile() {
           round={true}
           className="icon align-self-center"
         />
-        <Card.Body className="d-flex flex-column">
+        <Card.Body className="d-flex flex-column" style={{ color: "Tomato" }}>
           <Card.Text>
-            <strong>Name:</strong> {user.username}
+            <strong style={{ color: "MediumSeaGreen" }}>Name:</strong>{" "}
+            {user.username}
             <br />
-            <strong>Email:</strong> {user.email}
+            <strong style={{ color: "MediumSeaGreen" }}>Email:</strong>{" "}
+            {user.email}
             <br />
           </Card.Text>
-          <strong>Authorities:</strong> {user.usertype}
+          <strong style={{ color: "MediumSeaGreen" }}>Authorities:</strong>{" "}
+          {user.usertype}
           <br />
           {/* <ul>
             {user.roles &&
               user.roles.map((role, index) => <li key={index}>{role}</li>)}
           </ul> */}
           <Link
-            to={`/tours/${user.userId}`}
-            className="btn btn-primary mt-3 align-self-center"
+            to={`/mytrips/${user.userId}`}
+            className="btn btn-success mt-3 align-self-center"
           >
             My Tours
           </Link>

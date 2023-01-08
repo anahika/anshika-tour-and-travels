@@ -17,12 +17,14 @@ import java.sql.Date;
 public class Tour {
     @Id
     @Column(name="tour_id")
-    int tourId;
-    @Column(name = "tour_date")
-    Date tourDate;
+    private int tourId;
+    @Column(name = "start_date")
+    private Date tourDate;
     String destination;
-    int fare;
+    private int fare;
     @Column(name = "seats_available")
-    int seatsAvailable;
+    private int seatsAvailable;
+    @Column(name = "end_date")
+    private Date endDate;
 
 }

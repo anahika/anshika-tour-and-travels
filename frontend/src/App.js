@@ -8,15 +8,24 @@ import Login from "./components/auth/login/Login";
 import SignUp from "./components/auth/signup/SignUp";
 import UserBoard from "./components/user/UserDetail";
 import AdminBoard from "./components/admin/AdminBoard";
-import Error from "./components/pages/Error";
 import Profile from "./components/profile/Profile";
 import MyTrips from "./components/profile/MyTrips";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./App.css";
 import PrivateRoute from "./routes/PrivateRoute";
+import NoTours from "./components/pages/NoTours";
+import NotFound from "./components/pages/NotFound";
+import Error from "./components/pages/Error";
 
 function App() {
+  var expiryDate = new Date();
+  expiryDate.setHours(expiryDate.getHours() + 1);
+  localStorage.setItem("expiryDate", expiryDate);
+  if (expiryDate.getTime() < new Date().getTime()) {
+    localStorage.removeItem("user");
+    window.location.reload();
+  }
   return (
     <BrowserRouter>
       <div className="App">
@@ -31,9 +40,10 @@ function App() {
             element={<PrivateRoute component={Profile} />}
           />
           <Route path="/tours" element={<Tour />} />
+          <Route path="/tours/no-tours" element={<NoTours />} />
           <Route
             exact
-            path="/tours/:userId"
+            path="/mytrips/:userId"
             element={<PrivateRoute component={MyTrips} />}
           />
           <Route
@@ -49,7 +59,9 @@ function App() {
             path="/admin"
             element={<PrivateRoute component={AdminBoard} />}
           />
-          <Route path="/*" element={<Error />} />
+          <Route path="/error" element={<Error />} />
+
+          <Route path="/*" element={<NotFound />} />
         </Routes>
       </div>
     </BrowserRouter>

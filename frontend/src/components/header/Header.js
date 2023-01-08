@@ -26,7 +26,7 @@ function Header() {
   };
   return (
     <nav className="navbar navbar-expand ">
-      <Link to={"/"} className="navbar-brand">
+      <Link to={"/"} className="navbar-brand nav-link">
         Anshika Tour and Travels
       </Link>
       <div className="navbar-nav mr-auto">

@@ -42,14 +42,7 @@ public class UserServiceImpl implements UserService {
     @Override
     @Transactional
     public User addUser(User user) throws UserAlreadyExistException {
-
-        Optional<User> newUser;
-        try {
-            newUser = userRepo.findByUsername(user.getUsername());
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        if (newUser.isPresent()) {
+        if (userRepo.existsByUsername(user.getUsername())) {
             throw new UserAlreadyExistException("User with username " + user.getUsername() + " already exist");
         } else {
             User saved = userRepo.save(user);
@@ -66,22 +59,17 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User signIn(String username, String password) throws UserNotFoundException, WrongPasswordException {
-        Optional<User> user;
-        try {
-            user = userRepo.findByUsername(username);
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
-        if (user.isPresent()) {
-            if(user.get().getPassword().equals(password)){
+
+        if (!userRepo.existsByUsername(username)) {
+            throw new UserNotFoundException("No user exist with username " + username);
+        } else {
+            Optional<User> user = userRepo.findByUsername(username);
+            if (user.get().getPassword().equals(password)) {
                 return user.get();
-            }
-            else{
+            } else {
                 throw new WrongPasswordException("Password does not match!");
             }
 
-        } else {
-            throw new UserNotFoundException("No user exist with username " + username);
         }
     }
 

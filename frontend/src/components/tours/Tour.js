@@ -1,46 +1,95 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
-import { getTours, getByPlace, getByDate } from "../../services/TourService";
+import {
+  getTours,
+  getByPlace,
+  getByDate,
+  getByPrice,
+} from "../../services/TourService";
 import Loading from "../pages/Loading";
+import { Form } from "react-bootstrap";
 
 function Tour() {
+  const navigate = useNavigate();
   const [isLoading, setIsLoading] = useState(true);
-  const [tourDetails, setTourDetails] = useState({
-    tours: [],
-    destination: "",
-    date: "",
-  });
-
-  const handleChange = (event) => {
-    setTourDetails({ ...tourDetails, [event.target.name]: event.target.value });
-  };
+  const [tours, setTours] = useState([]);
 
   useEffect(() => {
-    getTours()
+    getTours(navigate)
       .then((response) => {
-        setTourDetails({ tours: response });
+        setTours(response);
         setIsLoading(false);
       })
       .catch((res) => {
-        setTourDetails({ tours: res });
+        setTours(res);
       });
-  }, []);
+  }, [navigate]);
 
   const searchByPlace = (e) => {
     e.preventDefault();
-    getByPlace(tourDetails.destination).then((response) => {
-      setTourDetails({ tours: response, destination: "" });
+    getByPlace(e.target.destination.value).then((response) => {
+      if (response.length === 0) {
+        let problem =
+          "Currently there are no tours available to " +
+          e.target.destination.value;
+        let sol = "Let's explore some other destination!";
+        navigate("/tours/no-tours", {
+          state: { problem: problem, sol: sol },
+        });
+      } else {
+        setTours(response);
+        e.target.destination.value = "";
+      }
     });
   };
 
   const searchBydate = (e) => {
     e.preventDefault();
-    getByDate(tourDetails.date).then((response) => {
-      setTourDetails({ tours: response, date: "" });
+    getByDate(e.target.date.value).then((response) => {
+      if (response.length === 0) {
+        let problem =
+          "Currently there are no tours available on " + e.target.date.value;
+        let sol = "Let's explore some other date!";
+
+        navigate("/tours/no-tours", {
+          state: { problem: problem, sol: sol },
+        });
+      } else {
+        setTours(response);
+        e.target.date.value = "";
+      }
     });
+  };
+
+  const searchByPrice = (e) => {
+    e.preventDefault();
+    let min = parseInt(e.target.min.value);
+    let max = parseInt(e.target.max.value);
+    if (min > max) {
+      alert("Please enter the valid range. i.e. min should be less than max.");
+    } else {
+      getByPrice(min, max).then((response) => {
+        if (response.length === 0) {
+          let problem = `Currently there are no tours available for price range between ${min} and ${max}`;
+          let sol = "Let's explore some other price range!";
+
+          navigate("/tours/no-tours", {
+            state: { problem: problem, sol: sol },
+          });
+        } else {
+          setTours(response);
+        }
+      });
+    }
+    e.target.min.value = "";
+    e.target.max.value = "";
+  };
+
+  const capitalizeFirstLowercaseRest = (str) => {
+    return str?.charAt(0).toUpperCase() + str?.slice(1).toLowerCase();
   };
 
   if (isLoading) {
@@ -62,19 +111,14 @@ function Tour() {
                     className="d-flex my-2 my-lg-0 ml-auto mr-2"
                     onSubmit={searchByPlace}
                   >
-                    <input
+                    <Form.Control
                       className="form-control mr-sm-2"
                       type="search"
                       name="destination"
-                      value={tourDetails.destination}
                       placeholder="Search by Place"
-                      onChange={handleChange}
                       required
                     />
-                    <button
-                      className="btn btn-outline-info  my-2 my-sm-0"
-                      type="submit"
-                    >
+                    <button className="btn btn-outline-info" type="submit">
                       Search
                     </button>
                   </form>
@@ -84,18 +128,41 @@ function Tour() {
                     className="d-flex my-2 my-lg-0 ml-auto mr-2"
                     onSubmit={searchBydate}
                   >
-                    <input
+                    <Form.Control
                       className="form-control mr-sm-2"
                       type="date"
                       name="date"
-                      value={tourDetails.date}
-                      onChange={handleChange}
                       required
                     />
-                    <button
-                      className="btn btn-outline-info  my-2 my-sm-0"
-                      type="submit"
-                    >
+                    <button className="btn btn-outline-info" type="submit">
+                      Search
+                    </button>
+                  </form>
+                </Nav.Item>
+                <Nav.Item className="min-max-price">
+                  <form
+                    className="d-flex my-2 my-lg-0 ml-auto mr-2"
+                    onSubmit={searchByPrice}
+                  >
+                    <Form.Control
+                      className="form-control mr-sm-2"
+                      type="number"
+                      name="min"
+                      placeholder="Min Price, >1000"
+                      min={1000}
+                      max={100000}
+                      required
+                    />
+                    <Form.Control
+                      className="form-control mr-sm-2"
+                      type="number"
+                      name="max"
+                      placeholder="Max Price, <100000"
+                      min={1000}
+                      max={100000}
+                      required
+                    />
+                    <button className="btn btn-outline-info" type="submit">
                       Search
                     </button>
                   </form>
@@ -105,47 +172,29 @@ function Tour() {
           </Container>
         </Navbar>
 
-        <div className="table-responsive d-flex justify-content-center">
+        <div className="table-responsive d-flex justify-content-center p-2">
           <table
-            className="table mb-0 mt-4 table-borderless"
+            className="table mb-0 mt-4 table-borderless text-center"
             style={{ width: "95%" }}
           >
             <thead>
               <tr className="table-primary">
-                <th scope="col" className="text-center">
-                  {" "}
-                  S No.{" "}
-                </th>
-                <th scope="col" className="text-center">
-                  {" "}
-                  Date
-                </th>
-                <th scope="col" className="text-center">
-                  {" "}
-                  Destination
-                </th>
-                <th scope="col" className="text-center">
-                  {" "}
-                  Fare
-                </th>
-                <th scope="col" className="text-center">
-                  {" "}
-                  Available seats
-                </th>
-                <th scope="col" className="text-center">
-                  {" "}
-                  Register
-                </th>
+                <th scope="col"> S No. </th>
+                <th scope="col"> Date</th>
+                <th scope="col"> Destination</th>
+                <th scope="col"> Fare</th>
+                <th scope="col"> Available seats</th>
+                <th scope="col"> Register</th>
               </tr>
             </thead>
             <tbody>
-              {tourDetails.tours.map((tour, index) => (
+              {tours.map((tour, index) => (
                 <tr key={index}>
-                  <td className="text-center">{index + 1}</td>
-                  <td className="text-center"> {tour.tourDate}</td>
-                  <td className="text-center"> {tour.destination}</td>
-                  <td className="text-center"> {tour.fare}</td>
-                  <td className="text-center"> {tour.seatsAvailable}</td>
+                  <td>{index + 1}</td>
+                  <td> {tour.tourDate}</td>
+                  <td> {capitalizeFirstLowercaseRest(tour.destination)}</td>
+                  <td> {tour.fare}</td>
+                  <td> {tour.seatsAvailable}</td>
 
                   <td>
                     {" "}

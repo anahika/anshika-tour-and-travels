@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import { useFormik } from "formik";
 import * as Yup from "yup";
 import { useParams } from "react-router-dom";
+import { registerUser } from "../../services/TourService";
 
 function Register() {
   const params = useParams();
@@ -11,8 +12,18 @@ function Register() {
   });
   // to handle signup post request
   const handleRegister = (values) => {
-    console.log(values);
-    console.log(params.tourId);
+    let tourId = params.tourId;
+    registerUser(
+      tourId,
+      values.boardingStation,
+      values.noOfPassengers,
+      values.phoneNumber
+    )
+      // .then(() => {
+      //   navigate("/");
+      //   window.location.reload();
+      // })
+      .catch((error) => {});
   };
 
   const displayErrorMessage = (invalidInput, errorMessage) => {
@@ -24,23 +35,17 @@ function Register() {
   const phoneRegExp = /^(\+\d{1,2}\s)?\(?\d{3}\)?[\s.-]?\d{3}[\s.-]?\d{4}$/;
   const formik = useFormik({
     initialValues: {
-      username: "",
       boardingStation: "",
       noOfPassengers: 0,
       phoneNumber: "",
     },
     validationSchema: Yup.object({
-      username: Yup.string().required("Please enter the username!"),
-      boardingStation: Yup.string().required(
-        "Please enter the boarding station!"
-      ),
       noOfPassengers: Yup.number()
         .positive("Please enter a positive number")
         .required("Please enter the number of passengers!"),
-      phoneNumber: Yup.string().matches(
-        phoneRegExp,
-        "Phone number is not valid"
-      ),
+      phoneNumber: Yup.string()
+        .matches(phoneRegExp, "Phone number is not valid")
+        .required("Please enter the mobile number!"),
     }),
     onSubmit: (values) => handleRegister(values),
   });
@@ -53,22 +58,6 @@ function Register() {
       >
         <h3 className="auth-form-title">Trip Registration Form </h3>
 
-        <div className="form-group">
-          <label>Username</label>
-          <input
-            type="text"
-            name="username"
-            className="form-control"
-            placeholder="Username"
-            onChange={formik.handleChange}
-            onBlur={formik.handleBlur}
-            value={formik.values.username}
-          />
-          {displayErrorMessage(
-            formik.touched.username && formik.errors.username,
-            formik.errors.username
-          )}{" "}
-        </div>
         <div className="form-group">
           <label>Boarding station</label>
           <input

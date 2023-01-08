@@ -3,8 +3,8 @@ package com.ak.service;
 import com.ak.exception.TourNotFoundException;
 import com.ak.exception.WrongDateFormatException;
 import com.ak.model.Tour;
+import com.ak.model.TripRegistration;
 
-import java.text.ParseException;
 import java.util.List;
 
 public interface TourService {
@@ -14,8 +14,10 @@ public interface TourService {
 
     List<Tour> searchByDestination(String destination) throws TourNotFoundException;
 
-    List<Tour> searchByDate(String date) throws TourNotFoundException, ParseException, WrongDateFormatException;
+    List<Tour> searchByDate(String date) throws TourNotFoundException, WrongDateFormatException;
 
-    List<Tour> searchByPrice(int min, int max);
+    List<Tour> searchByPrice(Integer min, Integer max) throws TourNotFoundException;
+
+    TripRegistration registerUser(TripRegistration tripRegistration);
 
 }

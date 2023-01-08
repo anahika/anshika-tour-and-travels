@@ -3,7 +3,9 @@ package com.ak.service;
 import com.ak.exception.TourNotFoundException;
 import com.ak.exception.WrongDateFormatException;
 import com.ak.model.Tour;
+import com.ak.model.TripRegistration;
 import com.ak.repo.TourRepo;
+import com.ak.repo.TripRegistrationRepo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,6 +22,9 @@ public class TourServiceImpl implements TourService {
 
     @Autowired
     TourRepo tourRepo;
+
+    @Autowired
+    TripRegistrationRepo tripRegistrationRepo;
 
     @Override
     public Tour findById(int id) throws TourNotFoundException {
@@ -44,7 +49,9 @@ public class TourServiceImpl implements TourService {
     @Override
     public List<Tour> searchByDestination(String destination) throws TourNotFoundException {
 
-
+        if(destination == null || destination == "undefined"){
+            throw new TourNotFoundException("Please enter the destination!");
+        }
         List<Tour> tours = tourRepo.findByDestination(destination);
         if (tours.isEmpty()) {
             throw new TourNotFoundException("No tours available to " + destination);
@@ -70,9 +77,17 @@ public class TourServiceImpl implements TourService {
     }
 
     @Override
-    public List<Tour> searchByPrice(int min, int max) {
+    public List<Tour> searchByPrice(Integer min, Integer max) throws TourNotFoundException{
+         List<Tour> tours = tourRepo.findByPriceRange(min,max);
+        if (tours.isEmpty()) {
+            throw new TourNotFoundException("No tours available for price range " + min + "-" + max);
+        }
+         return tours;
+    }
 
-        return null;
-//        return tourRepo.findByRange(min,max);
+    @Override
+    public TripRegistration registerUser(TripRegistration tripRegistration) {
+        TripRegistration newRegister = tripRegistrationRepo.save(tripRegistration);
+        return newRegister;
     }
 }
