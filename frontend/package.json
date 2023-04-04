@@ -18,8 +18,11 @@
     "web-vitals": "^3.0.0",
     "yup": "^0.32.11"
   },
+  "homepage": "https://github.com/anahika/anshika-tour-and-travels/tree/master/frontend",
   "scripts": {
     "start": "react-scripts start",
+    "predeploy" : "npm run build",
+"deploy" : "gh-pages -d build",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
