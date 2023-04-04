@@ -9,8 +9,8 @@ server:
 eureka:
   client:
     serviceUrl:
-      defaultZone: http://localhost:8761/eureka
+      defaultZone: http://eureka-server:8761/eureka/
   instance:
-    preferIpAddress: false
-    instance-id: user-service
-    hostname: localhost
+    preferIpAddress: true  # Use IP address instead of hostname
+    instance-id: ${spring.application.name}:${spring.application.instance_id:${random.value}}
+    hostname: user-service  # Use the service name as the hostname

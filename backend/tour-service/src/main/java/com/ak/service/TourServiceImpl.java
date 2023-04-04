@@ -32,7 +32,7 @@ public class TourServiceImpl implements TourService {
         try {
             tour = tourRepo.findById(id);
         } catch (Exception e) {
-            log.error("exception in findById method", e);
+            // log.error("exception in findById method", e);
             throw new RuntimeException();
         }
         if (tour.isEmpty()) {

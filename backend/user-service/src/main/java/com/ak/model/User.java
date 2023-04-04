@@ -28,4 +28,12 @@ public class User {
     private String usertype;
     @Column(name = "user_password")
     private String password;
+
+    public String getUsername() {
+        return username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
 }

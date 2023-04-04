@@ -24,7 +24,7 @@ export default function Landing() {
                 The town is famous for pleasant walking experiences on hillsides
                 surrounded by pine and oak forests.
               </p>
-              <Link to="./tours" className="btn btn-primary">
+              <Link to="/tours" className="btn btn-primary">
                 More Details
               </Link>
             </div>
@@ -45,7 +45,7 @@ export default function Landing() {
                 Dalhousie is one of the most visited and popular hill stations
                 in the country. It is known for its pleasant climate.
               </p>
-              <Link to="./tours" className="btn btn-primary">
+              <Link to="/tours" className="btn btn-primary">
                 More Details
               </Link>
             </div>
@@ -66,7 +66,7 @@ export default function Landing() {
                 A gift of the Himalayas, Manali is a beautiful township nestled
                 in the pictures of Beas River valley.
               </p>
-              <Link to="./tours" className="btn btn-primary">
+              <Link to="/tours" className="btn btn-primary">
                 More Details
               </Link>
             </div>
@@ -75,7 +75,7 @@ export default function Landing() {
       </div>
 
       <div className="row mt-5 justify-content-center">
-        <Link to="./tours" className="btn btn-primary">
+        <Link to="/tours" className="btn btn-primary">
           {" "}
           List of All Tours
         </Link>
