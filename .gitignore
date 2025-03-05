@@ -1,3 +1,6 @@
 project.zip
 frontend/node_modules/*
 frontend/build/*
+Dockerfile
+docker-compose.yml
+application*.yml
